@@ -172,6 +172,7 @@ class SavePlanApp {
       roi: effectiveROI,
       expenses: this.state.expenses,
       totalIncome: totalIncome,
+      isInvesting: isInvesting,
     };
   }
 
@@ -205,7 +206,8 @@ class SavePlanApp {
   }
 
   performCalculations(data) {
-    const { goal, current, months, roi, totalIncome, expenses } = data;
+    const { goal, current, months, roi, totalIncome, expenses, isInvesting } =
+      data;
 
     // Skip calculations if essential values are missing
     if (!goal || !months || !totalIncome) {
@@ -214,7 +216,23 @@ class SavePlanApp {
 
     // Basic calculations
     const remaining = Math.max(0, goal - current);
-    const requiredMonthly = months > 0 ? remaining / months : 0;
+
+    // Calculate required monthly payment based on investing status
+    let requiredMonthly = 0;
+    if (months > 0) {
+      if (isInvesting && roi > 0) {
+        // Use compound interest calculation for investing
+        requiredMonthly = calculateRequiredMonthlyPayment(
+          current,
+          goal,
+          months,
+          roi / 100,
+        );
+      } else {
+        // Use simple division for non-investing
+        requiredMonthly = remaining / months;
+      }
+    }
     const availableIncome = totalIncome - expenses;
     const surplus = availableIncome - requiredMonthly;
     const savingsRate =
@@ -643,6 +661,11 @@ function handleInvestingToggle(isInvesting) {
 
   if (investingText) {
     investingText.textContent = isInvesting ? "Yes" : "No";
+  }
+
+  // Trigger recalculation when investing status changes
+  if (window.app && typeof window.app.calculate === "function") {
+    window.app.calculate();
   }
 
   // Trigger recalculation

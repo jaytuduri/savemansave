@@ -240,6 +240,40 @@ function calculateTimeToGoal(
 }
 
 /**
+ * Calculate required monthly payment to reach a goal with compound interest
+ * @param {number} current - Current savings amount
+ * @param {number} goal - Target goal amount
+ * @param {number} months - Number of months to save
+ * @param {number} annualRate - Annual interest rate (as decimal)
+ * @returns {number} Required monthly payment
+ */
+function calculateRequiredMonthlyPayment(
+  current,
+  goal,
+  months,
+  annualRate = 0,
+) {
+  const remaining = Math.max(0, goal - current);
+
+  if (months <= 0 || remaining <= 0) return 0;
+
+  if (annualRate === 0) {
+    return remaining / months;
+  }
+
+  const monthlyRate = annualRate / 12;
+
+  if (current === 0) {
+    return goal / ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+  }
+
+  const futureValueOfCurrent = current * Math.pow(1 + monthlyRate, months);
+  const compoundFactor = (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate;
+
+  return Math.max(0, (goal - futureValueOfCurrent) / compoundFactor);
+}
+
+/**
  * Debounce function to limit how often a function can be called
  * @param {Function} func - Function to debounce
  * @param {number} wait - Wait time in milliseconds
