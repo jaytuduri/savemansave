@@ -45,7 +45,7 @@ class SavePlanApp {
 
   setupEventListeners() {
     // Main input fields
-    const mainInputs = ["goal", "current", "months", "roi", "expenses"];
+    const mainInputs = ["goal", "current", "timeframe", "roi", "expenses"];
     mainInputs.forEach((inputId) => {
       const element = document.getElementById(inputId);
       if (element) {
@@ -98,8 +98,12 @@ class SavePlanApp {
       return;
     }
 
-    // Update state
-    this.state[inputId] = numValue;
+    // Update state - convert timeframe to months for internal calculations
+    if (inputId === "timeframe") {
+      this.state.months = this.getMonthsFromTimeframe(numValue);
+    } else {
+      this.state[inputId] = numValue;
+    }
 
     // Trigger calculation
     this.calculate();
@@ -109,7 +113,7 @@ class SavePlanApp {
     const validations = {
       goal: (val) => val > 0 && val <= 100000000, // Max 100M SEK
       current: (val) => val >= 0 && val <= this.state.goal,
-      months: (val) => val > 0 && val <= 600, // Max 50 years
+      timeframe: (val) => val > 0 && val <= 600, // Max 50 years or 600 months
       roi: (val) => val >= -10 && val <= 30, // ROI between -10% and 30%
       expenses: (val) => val >= 0,
     };
@@ -156,14 +160,28 @@ class SavePlanApp {
       ? this.modules.income.getTotalIncome()
       : 69000; // Fallback
 
+    // Check if investing is enabled
+    const investingToggle = document.getElementById("investingToggle");
+    const isInvesting = investingToggle ? investingToggle.checked : true;
+    const effectiveROI = isInvesting ? this.state.roi : 0;
+
     return {
       goal: this.state.goal,
       current: this.state.current,
       months: this.state.months,
-      roi: this.state.roi,
+      roi: effectiveROI,
       expenses: this.state.expenses,
       totalIncome: totalIncome,
     };
+  }
+
+  getMonthsFromTimeframe(value) {
+    // Get months from timeframe input, considering the current unit
+    if (typeof getTimeframeInMonths === "function") {
+      return getTimeframeInMonths();
+    }
+    // Fallback - assume months if function not available
+    return value || 36;
   }
 
   performCalculations(data) {
@@ -485,11 +503,29 @@ class SavePlanApp {
 
     // Update UI
     Object.keys(this.state).forEach((key) => {
-      const element = document.getElementById(key);
-      if (element) {
-        element.value = this.state[key];
+      if (key === "months") {
+        // Handle timeframe input specially
+        const timeframeElement = document.getElementById("timeframe");
+        if (timeframeElement) {
+          timeframeElement.value = 36; // Reset to 36 months
+          if (typeof switchTimeframeUnit === "function") {
+            switchTimeframeUnit("months"); // Reset to months unit
+          }
+        }
+      } else {
+        const element = document.getElementById(key);
+        if (element) {
+          element.value = this.state[key];
+        }
       }
     });
+
+    // Reset investing toggle
+    const investingToggle = document.getElementById("investingToggle");
+    if (investingToggle) {
+      investingToggle.checked = true;
+      handleInvestingToggle(true);
+    }
 
     // Recalculate
     this.calculate();
@@ -539,6 +575,58 @@ document.addEventListener("DOMContentLoaded", () => {
       };
     }
   }, 200);
+});
+
+// Global currency change handler
+function handleCurrencyChange(newCurrency) {
+  setCurrency(newCurrency);
+}
+
+// Global investing toggle handler
+function handleInvestingToggle(isInvesting) {
+  const roiSection = document.getElementById("roiSection");
+  const investingText = document.getElementById("investingText");
+
+  if (roiSection) {
+    if (isInvesting) {
+      roiSection.style.display = "block";
+      roiSection.style.opacity = "0";
+      roiSection.style.transform = "translateY(-10px)";
+      setTimeout(() => {
+        roiSection.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+        roiSection.style.opacity = "1";
+        roiSection.style.transform = "translateY(0)";
+      }, 10);
+    } else {
+      roiSection.style.transition = "opacity 0.3s ease, transform 0.3s ease";
+      roiSection.style.opacity = "0";
+      roiSection.style.transform = "translateY(-10px)";
+      setTimeout(() => {
+        roiSection.style.display = "none";
+      }, 300);
+    }
+  }
+
+  if (investingText) {
+    investingText.textContent = isInvesting ? "Yes" : "No";
+  }
+
+  // Trigger recalculation
+  if (window.calculator && typeof window.calculator.calculate === "function") {
+    window.calculator.calculate();
+  }
+}
+
+// Initialize currency system
+document.addEventListener("DOMContentLoaded", () => {
+  // Set EUR as default currency
+  setCurrency("EUR");
+
+  // Initialize investing toggle state
+  const investingToggle = document.getElementById("investingToggle");
+  if (investingToggle) {
+    handleInvestingToggle(investingToggle.checked);
+  }
 });
 
 // Handle potential loading issues

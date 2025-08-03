@@ -3,22 +3,89 @@
  * Handles formatting, validation, and common helpers
  */
 
-// Formatters
-const formatters = {
-    currency: new Intl.NumberFormat("sv-SE", {
-        style: "currency",
-        currency: "SEK",
-        maximumFractionDigits: 0,
-    }),
-    percent: new Intl.NumberFormat("sv-SE", {
-        style: "percent",
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-    }),
-    number: new Intl.NumberFormat("sv-SE", {
-        maximumFractionDigits: 0,
-    }),
+// Current currency state
+let currentCurrency = "EUR";
+let currentLocale = "en-EU";
+
+// Currency configurations
+const currencyConfigs = {
+  EUR: { locale: "en-EU", symbol: "€" },
+  SEK: { locale: "sv-SE", symbol: "kr" },
+  USD: { locale: "en-US", symbol: "$" },
+  GBP: { locale: "en-GB", symbol: "£" },
+  NOK: { locale: "nb-NO", symbol: "kr" },
+  DKK: { locale: "da-DK", symbol: "kr" },
 };
+
+// Dynamic formatters
+function getFormatters() {
+  const config = currencyConfigs[currentCurrency];
+  return {
+    currency: new Intl.NumberFormat(config.locale, {
+      style: "currency",
+      currency: currentCurrency,
+      maximumFractionDigits: 0,
+    }),
+    percent: new Intl.NumberFormat(config.locale, {
+      style: "percent",
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    }),
+    number: new Intl.NumberFormat(config.locale, {
+      maximumFractionDigits: 0,
+    }),
+  };
+}
+
+/**
+ * Set the current currency
+ * @param {string} currency - The currency code (EUR, SEK, USD, etc.)
+ */
+function setCurrency(currency) {
+  if (currencyConfigs[currency]) {
+    currentCurrency = currency;
+    currentLocale = currencyConfigs[currency].locale;
+
+    // Update all currency displays
+    updateAllCurrencyDisplays();
+  }
+}
+
+/**
+ * Update all currency suffixes in the DOM
+ */
+function updateAllCurrencyDisplays() {
+  // Update input suffixes, but skip percentage suffixes
+  const suffixes = document.querySelectorAll(".input-suffix");
+  suffixes.forEach((suffix) => {
+    // Only update if it's not a percentage suffix
+    if (suffix.textContent !== "%") {
+      suffix.textContent = currentCurrency;
+    }
+  });
+
+  // Trigger recalculation to update all displayed values
+  if (typeof window.app !== "undefined" && window.app.calculate) {
+    window.app.calculate();
+  }
+}
+
+/**
+ * Get the current currency
+ * @returns {string} Current currency code
+ */
+function getCurrentCurrency() {
+  return currentCurrency;
+}
+
+/**
+ * Get investing status
+ * @returns {boolean} Whether investing is enabled
+ */
+function getInvestingStatus() {
+  const investingToggle = document.getElementById("investingToggle");
+  return investingToggle ? investingToggle.checked : true;
+}
 
 /**
  * Format a number as currency
@@ -26,8 +93,9 @@ const formatters = {
  * @returns {string} Formatted currency string
  */
 function formatCurrency(num) {
-    if (isNaN(num) || num === null || num === undefined) return "0 SEK";
-    return formatters.currency.format(num);
+  if (isNaN(num) || num === null || num === undefined)
+    return `0 ${currentCurrency}`;
+  return getFormatters().currency.format(num);
 }
 
 /**
@@ -36,8 +104,8 @@ function formatCurrency(num) {
  * @returns {string} Formatted percentage string
  */
 function formatPercent(num) {
-    if (isNaN(num) || num === null || num === undefined) return "0%";
-    return formatters.percent.format(num / 100);
+  if (isNaN(num) || num === null || num === undefined) return "0%";
+  return getFormatters().percent.format(num / 100);
 }
 
 /**
@@ -46,8 +114,8 @@ function formatPercent(num) {
  * @returns {string} Formatted number string
  */
 function formatNumber(num) {
-    if (isNaN(num) || num === null || num === undefined) return "0";
-    return formatters.number.format(num);
+  if (isNaN(num) || num === null || num === undefined) return "0";
+  return getFormatters().number.format(num);
 }
 
 /**
@@ -56,9 +124,9 @@ function formatNumber(num) {
  * @returns {number} The parsed float value or 0
  */
 function getInputValue(id) {
-    const element = document.getElementById(id);
-    if (!element) return 0;
-    return parseFloat(element.value) || 0;
+  const element = document.getElementById(id);
+  if (!element) return 0;
+  return parseFloat(element.value) || 0;
 }
 
 /**
@@ -67,10 +135,10 @@ function getInputValue(id) {
  * @param {string} text - The text to set
  */
 function setElementText(id, text) {
-    const element = document.getElementById(id);
-    if (element) {
-        element.textContent = text;
-    }
+  const element = document.getElementById(id);
+  if (element) {
+    element.textContent = text;
+  }
 }
 
 /**
@@ -80,15 +148,16 @@ function setElementText(id, text) {
  * @param {Function} handler - Event handler function
  */
 function addEventListenerSafe(selector, event, handler) {
-    const elements = typeof selector === "string"
-        ? document.querySelectorAll(selector)
-        : [selector];
+  const elements =
+    typeof selector === "string"
+      ? document.querySelectorAll(selector)
+      : [selector];
 
-    elements.forEach(element => {
-        if (element && typeof element.addEventListener === "function") {
-            element.addEventListener(event, handler);
-        }
-    });
+  elements.forEach((element) => {
+    if (element && typeof element.addEventListener === "function") {
+      element.addEventListener(event, handler);
+    }
+  });
 }
 
 /**
@@ -97,7 +166,7 @@ function addEventListenerSafe(selector, event, handler) {
  * @returns {boolean} True if positive
  */
 function isPositiveNumber(num) {
-    return !isNaN(num) && num > 0;
+  return !isNaN(num) && num > 0;
 }
 
 /**
@@ -108,7 +177,7 @@ function isPositiveNumber(num) {
  * @returns {number} Clamped number
  */
 function clamp(num, min, max) {
-    return Math.min(Math.max(num, min), max);
+  return Math.min(Math.max(num, min), max);
 }
 
 /**
@@ -119,17 +188,23 @@ function clamp(num, min, max) {
  * @param {number} months - Number of months
  * @returns {number} Future value
  */
-function calculateCompoundInterest(principal, monthlyContribution, annualRate, months) {
-    if (annualRate === 0) {
-        return principal + (monthlyContribution * months);
-    }
+function calculateCompoundInterest(
+  principal,
+  monthlyContribution,
+  annualRate,
+  months,
+) {
+  if (annualRate === 0) {
+    return principal + monthlyContribution * months;
+  }
 
-    const monthlyRate = annualRate / 12;
-    const futureValuePrincipal = principal * Math.pow(1 + monthlyRate, months);
-    const futureValueContributions = monthlyContribution *
-        ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+  const monthlyRate = annualRate / 12;
+  const futureValuePrincipal = principal * Math.pow(1 + monthlyRate, months);
+  const futureValueContributions =
+    monthlyContribution *
+    ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
 
-    return futureValuePrincipal + futureValueContributions;
+  return futureValuePrincipal + futureValueContributions;
 }
 
 /**
@@ -140,22 +215,28 @@ function calculateCompoundInterest(principal, monthlyContribution, annualRate, m
  * @param {number} annualRate - Annual interest rate (as decimal)
  * @returns {number} Months to reach goal
  */
-function calculateTimeToGoal(current, goal, monthlyContribution, annualRate = 0) {
-    if (monthlyContribution <= 0) return Infinity;
+function calculateTimeToGoal(
+  current,
+  goal,
+  monthlyContribution,
+  annualRate = 0,
+) {
+  if (monthlyContribution <= 0) return Infinity;
 
-    const remaining = goal - current;
-    if (remaining <= 0) return 0;
+  const remaining = goal - current;
+  if (remaining <= 0) return 0;
 
-    if (annualRate === 0) {
-        return Math.ceil(remaining / monthlyContribution);
-    }
+  if (annualRate === 0) {
+    return Math.ceil(remaining / monthlyContribution);
+  }
 
-    const monthlyRate = annualRate / 12;
-    // Using logarithmic formula for compound interest
-    const months = Math.log(1 + (remaining * monthlyRate) / monthlyContribution) /
-                  Math.log(1 + monthlyRate);
+  const monthlyRate = annualRate / 12;
+  // Using logarithmic formula for compound interest
+  const months =
+    Math.log(1 + (remaining * monthlyRate) / monthlyContribution) /
+    Math.log(1 + monthlyRate);
 
-    return Math.ceil(months);
+  return Math.ceil(months);
 }
 
 /**
@@ -165,15 +246,15 @@ function calculateTimeToGoal(current, goal, monthlyContribution, annualRate = 0)
  * @returns {Function} Debounced function
  */
 function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
     };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }
 
 /**
@@ -181,7 +262,7 @@ function debounce(func, wait) {
  * @returns {string} Unique identifier
  */
 function generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
 /**
@@ -190,18 +271,18 @@ function generateId() {
  * @returns {Object} Cloned object
  */
 function deepClone(obj) {
-    if (obj === null || typeof obj !== "object") return obj;
-    if (obj instanceof Date) return new Date(obj.getTime());
-    if (obj instanceof Array) return obj.map(item => deepClone(item));
-    if (typeof obj === "object") {
-        const clonedObj = {};
-        for (const key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                clonedObj[key] = deepClone(obj[key]);
-            }
-        }
-        return clonedObj;
+  if (obj === null || typeof obj !== "object") return obj;
+  if (obj instanceof Date) return new Date(obj.getTime());
+  if (obj instanceof Array) return obj.map((item) => deepClone(item));
+  if (typeof obj === "object") {
+    const clonedObj = {};
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        clonedObj[key] = deepClone(obj[key]);
+      }
     }
+    return clonedObj;
+  }
 }
 
 /**
@@ -210,26 +291,25 @@ function deepClone(obj) {
  * @param {boolean} show - Whether to show or hide
  */
 function toggleElement(selector, show) {
-    const element = typeof selector === "string"
-        ? document.querySelector(selector)
-        : selector;
+  const element =
+    typeof selector === "string" ? document.querySelector(selector) : selector;
 
-    if (!element) return;
+  if (!element) return;
 
-    if (show) {
-        element.style.display = "flex";
-        element.style.opacity = "0";
-        setTimeout(() => {
-            element.style.transition = "opacity 0.3s ease";
-            element.style.opacity = "1";
-        }, 10);
-    } else {
-        element.style.transition = "opacity 0.3s ease";
-        element.style.opacity = "0";
-        setTimeout(() => {
-            element.style.display = "none";
-        }, 300);
-    }
+  if (show) {
+    element.style.display = "flex";
+    element.style.opacity = "0";
+    setTimeout(() => {
+      element.style.transition = "opacity 0.3s ease";
+      element.style.opacity = "1";
+    }, 10);
+  } else {
+    element.style.transition = "opacity 0.3s ease";
+    element.style.opacity = "0";
+    setTimeout(() => {
+      element.style.display = "none";
+    }, 300);
+  }
 }
 
 /**
@@ -240,26 +320,32 @@ function toggleElement(selector, show) {
  * @param {number} duration - Animation duration in ms
  * @param {Function} formatter - Number formatting function
  */
-function animateNumber(element, start, end, duration = 1000, formatter = formatNumber) {
-    const startTime = Date.now();
-    const difference = end - start;
+function animateNumber(
+  element,
+  start,
+  end,
+  duration = 1000,
+  formatter = formatNumber,
+) {
+  const startTime = Date.now();
+  const difference = end - start;
 
-    function update() {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+  function update() {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
 
-        // Easing function for smooth animation
-        const easeOutCubic = 1 - Math.pow(1 - progress, 3);
-        const current = start + (difference * easeOutCubic);
+    // Easing function for smooth animation
+    const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+    const current = start + difference * easeOutCubic;
 
-        element.textContent = formatter(current);
+    element.textContent = formatter(current);
 
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        }
+    if (progress < 1) {
+      requestAnimationFrame(update);
     }
+  }
 
-    requestAnimationFrame(update);
+  requestAnimationFrame(update);
 }
 
 // Export for use in other modules (if using ES6 modules)
