@@ -821,75 +821,301 @@ input[type="number"]::-webkit-inner-spin-button {
     position: relative;
 }
 
-/* Tips Section */
-.tips-section {
-    background: linear-gradient(135deg, #fef3c7, #fcd34d);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    color: #92400e;
-}
-
-.tips-section .section-header h3 {
-    color: #92400e;
-}
-
-.tips-section .section-header h3 svg {
-    color: #f59e0b;
-}
-
-.tips-grid {
-    display: grid;
-    gap: 1rem;
-}
-
-.tip-item {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 1.5rem;
+/* Chart Controls */
+.chart-controls {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--bg-secondary);
     border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.chart-controls-header {
+    margin-bottom: 0.75rem;
+}
+
+.chart-controls-header span {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: var(--font-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.chart-controls-buttons {
     display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    border-left: 4px solid #f59e0b;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.chart-control-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+    font-weight: 500;
+    cursor: pointer;
     transition: var(--transition);
 }
 
-.tip-item:hover {
-    background: rgba(255, 255, 255, 0.9);
-    transform: translateX(4px);
+.chart-control-btn:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--primary);
+    color: var(--text-primary);
 }
 
-.tip-icon {
-    width: 40px;
-    height: 40px;
-    background: #fbbf24;
-    border-radius: 50%;
+.chart-control-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.chart-control-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* What-If Scenarios Section */
+.scenarios-section {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    color: var(--text-primary);
+}
+
+.scenarios-section .section-header h3 {
+    color: var(--primary);
+}
+
+.scenarios-section .section-header h3 svg {
+    color: var(--info);
+}
+
+.scenarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.scenario-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.scenario-card:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.scenario-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary);
+}
+
+.scenario-boost::before {
+    background: var(--success);
+}
+.scenario-cut::before {
+    background: var(--warning);
+}
+.scenario-behavioral::before {
+    background: var(--info);
+}
+.scenario-investment::before {
+    background: var(--primary);
+}
+.scenario-income::before {
+    background: var(--secondary);
+}
+.scenario-timeline::before {
+    background: #8b5cf6;
+}
+
+.scenario-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.scenario-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    margin-top: 0.125rem;
+    margin-right: 1rem;
 }
 
-.tip-icon svg {
-    width: 20px;
-    height: 20px;
-    color: white;
+.scenario-boost .scenario-icon {
+    background: #dcfce7;
+    color: var(--success);
+}
+.scenario-cut .scenario-icon {
+    background: #fef3c7;
+    color: var(--warning);
+}
+.scenario-behavioral .scenario-icon {
+    background: #dbeafe;
+    color: var(--info);
+}
+.scenario-investment .scenario-icon {
+    background: #ede9fe;
+    color: var(--primary);
+}
+.scenario-income .scenario-icon {
+    background: #d1fae5;
+    color: var(--secondary);
+}
+.scenario-timeline .scenario-icon {
+    background: #f3e8ff;
+    color: #8b5cf6;
 }
 
-.tip-content {
+.scenario-title-section {
     flex: 1;
 }
 
-.tip-title {
+.scenario-title {
     font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #92400e;
+    margin: 0 0 0.25rem 0;
+    color: var(--text-primary);
     font-size: var(--font-lg);
 }
 
-.tip-text {
+.scenario-subtitle {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: var(--font-sm);
+}
+
+.scenario-difficulty {
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.difficulty-easy {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.difficulty-medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.difficulty-hard {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.scenario-content {
+    margin-top: 1rem;
+}
+
+.scenario-description {
     line-height: 1.5;
-    color: #a16207;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.scenario-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.scenario-metric {
+    text-align: center;
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+}
+
+.metric-label {
+    display: block;
+    font-size: var(--font-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    margin-bottom: 0.25rem;
+}
+
+.metric-value {
+    display: block;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: var(--font-sm);
+}
+
+.impact-value {
+    color: var(--success);
+}
+
+.scenario-category {
+    text-align: center;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary);
+    color: white;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-xs);
+    font-weight: 500;
+}
+
+.no-scenarios {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+}
+
+.no-scenarios-icon {
+    margin: 0 auto 1rem;
+    width: 64px;
+    height: 64px;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--success);
+}
+
+.no-scenarios h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+}
+
+.no-scenarios p {
+    margin: 0;
 }
 
 /* Modal */
@@ -1246,8 +1472,50 @@ input[type="number"]::-webkit-inner-spin-button {
         padding: 1rem;
     }
 
-    .tip-item {
+    .scenarios-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .scenario-card {
         padding: 1rem;
+    }
+
+    .scenario-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .scenario-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 0;
+    }
+
+    .scenario-metrics {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .scenario-metric {
+        padding: 0.5rem;
+    }
+
+    .chart-controls {
+        padding: 0.75rem;
+        margin: 1rem 0;
+    }
+
+    .chart-controls-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .chart-control-btn {
+        justify-content: center;
+        padding: 0.75rem 1rem;
+        font-size: var(--font-base);
     }
 }
 
@@ -1309,7 +1577,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
     .step-section,
     .chart-section,
-    .tips-section {
+    .scenarios-section {
         break-inside: avoid;
         box-shadow: none;
         border: 1px solid #ccc;

@@ -727,16 +727,59 @@
                         <h3>See Your Money Grow Over Time</h3>
                         <p>
                             This chart shows how your savings will grow month by
-                            month
+                            month, including what-if scenarios
                         </p>
+                    </div>
+                    <div class="chart-controls">
+                        <div class="chart-controls-header">
+                            <span>Chart Options</span>
+                        </div>
+                        <div class="chart-controls-buttons">
+                            <button
+                                class="chart-control-btn active"
+                                data-toggle="main"
+                            >
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <polyline
+                                        points="22,12 18,12 15,21 9,3 6,12 2,12"
+                                    />
+                                </svg>
+                                Main Plan
+                            </button>
+                            <button
+                                class="chart-control-btn active"
+                                data-toggle="scenarios"
+                            >
+                                <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                                    />
+                                </svg>
+                                What-If Scenarios
+                            </button>
+                        </div>
                     </div>
                     <div class="chart-container">
                         <canvas id="savingsChart"></canvas>
                     </div>
                 </section>
 
-                <!-- Tips Section -->
-                <section class="tips-section">
+                <!-- What-If Scenarios Section -->
+                <section class="scenarios-section">
                     <div class="section-header">
                         <h3>
                             <svg
@@ -747,15 +790,16 @@
                                 stroke="currentColor"
                                 stroke-width="2"
                             >
-                                <circle cx="12" cy="12" r="10" />
-                                <path d="m9 12 2 2 4-4" />
+                                <path
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                                />
                             </svg>
-                            Smart Tips for Your Plan
+                            What-If Scenarios
                         </h3>
-                        <p>Personalized advice to help you succeed</p>
+                        <p>Explore different paths to reach your goal faster</p>
                     </div>
-                    <div class="tips-grid" id="tipsContainer">
-                        <!-- Tips will be populated by JavaScript -->
+                    <div class="scenarios-grid" id="scenariosContainer">
+                        <!-- Scenarios will be populated by JavaScript -->
                     </div>
                 </section>
             </main>
@@ -943,7 +987,7 @@
         <script src="js/utils.js"></script>
         <script src="js/income.js"></script>
         <script src="js/chart.js"></script>
-        <script src="js/tips.js"></script>
+        <script src="js/scenarios.js"></script>
         <script src="js/sharing.js"></script>
         <script src="js/main.js"></script>
     </body>

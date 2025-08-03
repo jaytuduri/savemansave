@@ -17,7 +17,7 @@ class SavePlanApp {
     this.modules = {
       income: null,
       chart: null,
-      tips: null,
+      scenarios: null,
     };
 
     this.init();
@@ -40,7 +40,7 @@ class SavePlanApp {
     // We'll reference them through the global window object
     this.modules.income = window.incomeManager;
     this.modules.chart = window.chartManager;
-    this.modules.tips = window.tipsManager;
+    this.modules.scenarios = window.scenariosManager;
   }
 
   setupEventListeners() {
@@ -64,6 +64,14 @@ class SavePlanApp {
           });
         }
       }
+    });
+
+    // Chart control buttons
+    const chartControlBtns = document.querySelectorAll(".chart-control-btn");
+    chartControlBtns.forEach((btn) => {
+      addEventListenerSafe(btn, "click", () => {
+        this.handleChartControlToggle(btn);
+      });
     });
 
     // Window events
@@ -383,9 +391,40 @@ class SavePlanApp {
       this.modules.chart.updateChart(results);
     }
 
-    // Update tips
-    if (this.modules.tips && this.modules.tips.generateTips) {
-      this.modules.tips.generateTips(results);
+    // Update scenarios
+    if (this.modules.scenarios && this.modules.scenarios.generateScenarios) {
+      this.modules.scenarios.generateScenarios(results);
+    }
+  }
+
+  handleChartControlToggle(button) {
+    const toggleType = button.dataset.toggle;
+
+    // Toggle button active state
+    button.classList.toggle("active");
+
+    if (toggleType === "main") {
+      // Toggle main projection visibility
+      if (this.modules.chart && this.modules.chart.chart) {
+        const mainDatasets = this.modules.chart.chart.data.datasets.filter(
+          (dataset) => !dataset.scenarioId,
+        );
+        mainDatasets.forEach((dataset) => {
+          dataset.hidden = !button.classList.contains("active");
+        });
+        this.modules.chart.chart.update("none");
+      }
+    } else if (toggleType === "scenarios") {
+      // Toggle all scenario visibility
+      if (this.modules.chart && this.modules.chart.chart) {
+        const scenarioDatasets = this.modules.chart.chart.data.datasets.filter(
+          (dataset) => dataset.scenarioId,
+        );
+        scenarioDatasets.forEach((dataset) => {
+          dataset.hidden = !button.classList.contains("active");
+        });
+        this.modules.chart.chart.update("none");
+      }
     }
   }
 
@@ -506,7 +545,9 @@ class SavePlanApp {
       state: this.state,
       timestamp: new Date().toISOString(),
       income: this.modules.income ? this.modules.income.exportData() : null,
-      tips: this.modules.tips ? this.modules.tips.exportTips() : null,
+      scenarios: this.modules.scenarios
+        ? this.modules.scenarios.exportScenarios()
+        : null,
     };
   }
 
@@ -549,8 +590,8 @@ class SavePlanApp {
       this.modules.income.reset();
     }
 
-    if (this.modules.tips && this.modules.tips.clearTips) {
-      this.modules.tips.clearTips();
+    if (this.modules.scenarios && this.modules.scenarios.clearScenarios) {
+      this.modules.scenarios.clearScenarios();
     }
 
     // Update UI
