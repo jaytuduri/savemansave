@@ -92,15 +92,15 @@
 
             <!-- Step Progress -->
             <div class="step-progress">
-                <div class="step" data-step="1">
+                <div class="step active" data-step="1">
                     <div class="step-number">1</div>
                     <div class="step-label">Your Goal</div>
                 </div>
-                <div class="step" data-step="2">
+                <div class="step active" data-step="2">
                     <div class="step-number">2</div>
                     <div class="step-label">Your Income</div>
                 </div>
-                <div class="step" data-step="3">
+                <div class="step active" data-step="3">
                     <div class="step-number">3</div>
                     <div class="step-label">Your Plan</div>
                 </div>
@@ -156,7 +156,7 @@
                             id="currency"
                             onchange="handleCurrencyChange(this.value)"
                         >
-                            <option value="EUR">EUR (€)</option>
+                            <option value="EUR" selected>EUR (€)</option>
                             <option value="SEK">SEK (kr)</option>
                             <option value="USD">USD ($)</option>
                             <option value="GBP">GBP (£)</option>
@@ -187,8 +187,9 @@
                                 <input
                                     type="number"
                                     id="goal"
+                                    value="1000000"
                                     class="form-input large-input"
-                                    placeholder="Enter your savings goal"
+                                    placeholder="1000000"
                                 />
                                 <span class="input-suffix">EUR</span>
                             </div>
@@ -223,8 +224,9 @@
                                 <input
                                     type="number"
                                     id="current"
+                                    value="0"
                                     class="form-input"
-                                    placeholder="Enter current savings"
+                                    placeholder="0"
                                 />
                                 <span class="input-suffix">EUR</span>
                             </div>
@@ -236,7 +238,7 @@
                                     ></div>
                                 </div>
                                 <div class="progress-text" id="progressText">
-                                    Enter your goal and current savings
+                                    20% of your goal
                                 </div>
                             </div>
                         </div>
@@ -269,7 +271,7 @@
                                 </button>
                                 <button
                                     type="button"
-                                    class="timeframe-btn"
+                                    class="timeframe-btn active"
                                     data-unit="years"
                                     onclick="switchTimeframeUnit('years')"
                                 >
@@ -281,9 +283,10 @@
                                 <input
                                     type="number"
                                     id="timeframe"
+                                    value="30"
                                     step="0.5"
                                     class="form-input"
-                                    placeholder="Enter timeframe"
+                                    placeholder="30"
                                     onchange="handleTimeframeChange()"
                                 />
                                 <span class="input-suffix" id="timeframeSuffix"
@@ -292,7 +295,7 @@
                             </div>
                             <div class="input-help">
                                 <span id="timeframeDisplay"
-                                    >Enter a timeframe above</span
+                                    >That's 30 years</span
                                 >
                             </div>
                         </div>
@@ -320,6 +323,7 @@
                                         type="checkbox"
                                         id="investingToggle"
                                         class="toggle-input"
+                                        checked
                                         onchange="handleInvestingToggle(this.checked)"
                                     />
                                     <label
@@ -329,7 +333,7 @@
                                         <span class="toggle-slider"></span>
                                     </label>
                                     <span class="toggle-text" id="investingText"
-                                        >No</span
+                                        >Yes</span
                                     >
                                 </div>
                             </div>
@@ -356,9 +360,10 @@
                                 <input
                                     type="number"
                                     id="roi"
+                                    value="5"
                                     step="0.1"
                                     class="form-input"
-                                    placeholder="Enter expected return %"
+                                    placeholder="5"
                                 />
                                 <span class="input-suffix">%</span>
                             </div>
@@ -441,8 +446,9 @@
                                     <input
                                         type="number"
                                         class="income-input form-input large-input"
+                                        value="3000"
                                         data-earner="0"
-                                        placeholder="Enter monthly income"
+                                        placeholder="3000"
                                     />
                                     <span class="input-suffix">EUR</span>
                                 </div>
@@ -491,8 +497,9 @@
                                 <input
                                     type="number"
                                     id="expenses"
+                                    value="2000"
                                     class="form-input"
-                                    placeholder="Enter monthly expenses"
+                                    placeholder="2000"
                                 />
                                 <span class="input-suffix">EUR</span>
                             </div>
@@ -531,7 +538,7 @@
                         <div class="hero-content">
                             <div class="hero-label">You need to save</div>
                             <div class="hero-amount" id="heroAmount">
-                                Calculate your plan
+                                1,000 EUR
                             </div>
                             <div class="hero-description">
                                 every month to reach your goal
@@ -548,7 +555,7 @@
                                     <path d="M9 12l2 2 4-4" />
                                     <circle cx="12" cy="12" r="10" />
                                 </svg>
-                                Enter your details to see your plan
+                                This looks achievable!
                             </div>
                         </div>
                     </div>
@@ -578,7 +585,7 @@
                                     Total Household Income
                                 </div>
                                 <div class="result-value" id="householdIncome">
-                                    -
+                                    3,000 EUR
                                 </div>
                             </div>
                         </div>
@@ -604,7 +611,7 @@
                                     Left After Expenses & Saving
                                 </div>
                                 <div class="result-value" id="availableIncome">
-                                    -
+                                    0 EUR
                                 </div>
                             </div>
                         </div>
@@ -628,7 +635,7 @@
                             <div class="result-content">
                                 <div class="result-label">Savings Rate</div>
                                 <div class="result-value" id="savingsRate">
-                                    -
+                                    32%
                                 </div>
                             </div>
                         </div>
@@ -656,7 +663,7 @@
                                     class="result-value large"
                                     id="futureValue"
                                 >
-                                    -
+                                    4,321,942 EUR
                                 </div>
                             </div>
                         </div>
@@ -689,7 +696,7 @@
                                     class="result-value"
                                     id="totalContributions"
                                 >
-                                    -
+                                    360,000 EUR
                                 </div>
                             </div>
                         </div>
@@ -714,7 +721,7 @@
                                     Interest You'll Earn
                                 </div>
                                 <div class="result-value" id="interestEarned">
-                                    -
+                                    3,961,942 EUR
                                 </div>
                             </div>
                         </div>
@@ -883,12 +890,137 @@
         </div>
 
         <!-- JavaScript Files -->
-        <script src="js/timeframe.js"></script>
         <script src="js/utils.js"></script>
         <script src="js/income.js"></script>
         <script src="js/chart.js"></script>
         <script src="js/tips.js"></script>
         <script src="js/sharing.js"></script>
         <script src="js/main.js"></script>
+
+        <script>
+            // Global timeframe state
+            let currentTimeframeUnit = "years";
+
+            // Quick inline functions for immediate UI feedback
+            function updateTimeframeDisplay() {
+                const timeframeValue =
+                    parseFloat(document.getElementById("timeframe").value) ||
+                    36;
+                let displayText = "";
+
+                if (currentTimeframeUnit === "months") {
+                    const years = Math.round((timeframeValue / 12) * 10) / 10;
+                    if (timeframeValue === 1) {
+                        displayText = "That's 1 month";
+                    } else if (years === 1) {
+                        displayText = "That's 1 year";
+                    } else if (years < 1) {
+                        displayText = `That's ${timeframeValue} months`;
+                    } else {
+                        displayText =
+                            years % 1 === 0
+                                ? `That's ${Math.round(years)} years`
+                                : `That's ${years} years`;
+                    }
+                } else {
+                    const months = Math.round(timeframeValue * 12);
+                    if (timeframeValue === 1) {
+                        displayText = "That's 12 months";
+                    } else if (timeframeValue === 0.5) {
+                        displayText = "That's 6 months";
+                    } else {
+                        displayText = `That's ${months} months`;
+                    }
+                }
+
+                document.getElementById("timeframeDisplay").textContent =
+                    displayText;
+            }
+
+            function switchTimeframeUnit(unit) {
+                const timeframeInput = document.getElementById("timeframe");
+                const timeframeSuffix =
+                    document.getElementById("timeframeSuffix");
+                const currentValue = parseFloat(timeframeInput.value) || 36;
+
+                // Remove active class from all buttons
+                document.querySelectorAll(".timeframe-btn").forEach((btn) => {
+                    btn.classList.remove("active");
+                });
+
+                // Add active class to clicked button
+                document
+                    .querySelector(`[data-unit="${unit}"]`)
+                    .classList.add("active");
+
+                // Convert value if switching units
+                if (currentTimeframeUnit !== unit) {
+                    let newValue;
+                    if (unit === "years" && currentTimeframeUnit === "months") {
+                        // Converting months to years
+                        newValue = Math.round((currentValue / 12) * 10) / 10;
+                        if (newValue < 0.5) newValue = 0.5; // Minimum 6 months
+                    } else if (
+                        unit === "months" &&
+                        currentTimeframeUnit === "years"
+                    ) {
+                        // Converting years to months
+                        newValue = Math.round(currentValue * 12);
+                        if (newValue < 1) newValue = 1; // Minimum 1 month
+                    } else {
+                        newValue = currentValue;
+                    }
+
+                    timeframeInput.value = newValue;
+                    timeframeInput.step = unit === "years" ? "0.5" : "1";
+                    timeframeInput.min = unit === "years" ? "0.5" : "1";
+                }
+
+                currentTimeframeUnit = unit;
+                timeframeSuffix.textContent = unit;
+                updateTimeframeDisplay();
+
+                // Trigger recalculation
+                if (
+                    window.calculator &&
+                    typeof window.calculator.calculate === "function"
+                ) {
+                    window.calculator.calculate();
+                }
+            }
+
+            function handleTimeframeChange() {
+                updateTimeframeDisplay();
+
+                // Trigger recalculation
+                if (
+                    window.calculator &&
+                    typeof window.calculator.calculate === "function"
+                ) {
+                    window.calculator.calculate();
+                }
+            }
+
+            function getTimeframeInMonths() {
+                const value =
+                    parseFloat(document.getElementById("timeframe").value) ||
+                    30;
+                return currentTimeframeUnit === "years"
+                    ? Math.round(value * 12)
+                    : value;
+            }
+
+            // Update years display when months change
+            document.addEventListener("DOMContentLoaded", function () {
+                const timeframeInput = document.getElementById("timeframe");
+                if (timeframeInput) {
+                    timeframeInput.addEventListener(
+                        "input",
+                        updateTimeframeDisplay,
+                    );
+                    updateTimeframeDisplay(); // Initial call
+                }
+            });
+        </script>
     </body>
 </html>

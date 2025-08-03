@@ -1,0 +1,126 @@
+<!-- Step 2: Income -->
+<section class="step-section" id="step2">
+    <div class="step-header">
+        <h2>
+            <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            Step 2: Tell Us About Your Income
+        </h2>
+        <p class="step-description">
+            Add all sources of monthly income in your household
+        </p>
+    </div>
+
+    <div class="income-section">
+        <div class="toggle-card">
+            <div class="toggle-header">
+                <div class="toggle-info">
+                    <h3>Multiple Income Earners</h3>
+                    <p>Are you planning this together with someone?</p>
+                </div>
+                <div
+                    class="toggle-switch"
+                    id="multipleEarnersToggle"
+                    onclick="toggleMultipleEarners()"
+                ></div>
+            </div>
+        </div>
+
+        <div class="income-earners" id="incomeEarners">
+            <div class="income-card" data-earner="0">
+                <div class="income-header">
+                    <div class="earner-info">
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                            />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        <span class="earner-title"
+                            >Your Monthly Income (after tax)</span
+                        >
+                    </div>
+                </div>
+                <div class="input-wrapper">
+                    <input
+                        type="number"
+                        class="income-input form-input large-input"
+                        data-earner="0"
+                        placeholder="Enter monthly income"
+                    />
+                    <span class="input-suffix">EUR</span>
+                </div>
+            </div>
+        </div>
+
+        <button
+            class="add-income-btn"
+            id="addEarnerBtn"
+            onclick="addIncomeEarner()"
+            style="display: none"
+        >
+            <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+            </svg>
+            Add Another Person's Income
+        </button>
+
+        <div class="input-card">
+            <label for="expenses" class="input-label">
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <circle cx="8" cy="21" r="1" />
+                    <circle cx="19" cy="21" r="1" />
+                    <path
+                        d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L22 6H7"
+                    />
+                </svg>
+                Monthly expenses (rent, food, bills, etc.)
+            </label>
+            <div class="input-wrapper">
+                <input
+                    type="number"
+                    id="expenses"
+                    class="form-input"
+                    placeholder="Enter monthly expenses"
+                />
+                <span class="input-suffix">EUR</span>
+            </div>
+            <div class="input-help">
+                Include rent, food, utilities, insurance, etc.
+            </div>
+        </div>
+    </div>
+</section>

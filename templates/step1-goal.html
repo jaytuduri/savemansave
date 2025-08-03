@@ -1,0 +1,232 @@
+<!-- Step 1: Financial Goal -->
+<section class="step-section" id="step1">
+    <div class="step-header">
+        <h2>
+            <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path d="M9 12l2 2 4-4" />
+                <path
+                    d="M21 12c.552 0 1.447-.715 1.447-1.5S21.552 9 21 9s-1.447.715-1.447 1.5S20.448 12 21 12z"
+                />
+                <path d="M11.5 7H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h5.5" />
+                <path d="M21 12H10" />
+            </svg>
+            Step 1: What's Your Financial Goal?
+        </h2>
+        <p class="step-description">
+            Tell us about your savings goal and timeline
+        </p>
+    </div>
+
+    <!-- Currency Selector -->
+    <div class="currency-selector">
+        <label for="currency">
+            <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 6v6l4 2" />
+            </svg>
+            Currency:
+        </label>
+        <select id="currency" onchange="handleCurrencyChange(this.value)">
+            <option value="EUR">EUR (€)</option>
+            <option value="SEK">SEK (kr)</option>
+            <option value="USD">USD ($)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="NOK">NOK (kr)</option>
+            <option value="DKK">DKK (kr)</option>
+        </select>
+    </div>
+
+    <div class="form-grid">
+        <div class="input-card">
+            <label for="goal" class="input-label">
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path d="M12 2v20" />
+                    <path
+                        d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"
+                    />
+                </svg>
+                How much do you want to save?
+            </label>
+            <div class="input-wrapper">
+                <input
+                    type="number"
+                    id="goal"
+                    class="form-input large-input"
+                    placeholder="Enter your savings goal"
+                />
+                <span class="input-suffix">EUR</span>
+            </div>
+            <div class="input-help">
+                Examples: House down payment, emergency fund, vacation
+            </div>
+        </div>
+
+        <div class="input-card">
+            <label for="current" class="input-label">
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <rect width="20" height="14" x="2" y="5" rx="2" />
+                    <line x1="2" x2="22" y1="10" y2="10" />
+                </svg>
+                How much have you saved already?
+            </label>
+            <div class="input-wrapper">
+                <input
+                    type="number"
+                    id="current"
+                    class="form-input"
+                    placeholder="Enter current savings"
+                />
+                <span class="input-suffix">EUR</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">
+                    Enter your goal and current savings
+                </div>
+            </div>
+        </div>
+
+        <div class="input-card">
+            <label for="timeframe" class="input-label">
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12,6 12,12 16,14" />
+                </svg>
+                When do you want to reach this goal?
+            </label>
+
+            <!-- Timeframe Unit Toggle -->
+            <div class="timeframe-toggle">
+                <button
+                    type="button"
+                    class="timeframe-btn"
+                    data-unit="months"
+                    onclick="switchTimeframeUnit('months')"
+                >
+                    Months
+                </button>
+                <button
+                    type="button"
+                    class="timeframe-btn"
+                    data-unit="years"
+                    onclick="switchTimeframeUnit('years')"
+                >
+                    Years
+                </button>
+            </div>
+
+            <div class="input-wrapper">
+                <input
+                    type="number"
+                    id="timeframe"
+                    step="0.5"
+                    class="form-input"
+                    placeholder="Enter timeframe"
+                    onchange="handleTimeframeChange()"
+                />
+                <span class="input-suffix" id="timeframeSuffix">years</span>
+            </div>
+            <div class="input-help">
+                <span id="timeframeDisplay">Enter a timeframe above</span>
+            </div>
+        </div>
+
+        <div class="input-card">
+            <!-- Investing Toggle -->
+            <div class="toggle-section">
+                <label class="toggle-label">
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" />
+                    </svg>
+                    Are you investing your monthly savings?
+                </label>
+                <div class="toggle-container">
+                    <input
+                        type="checkbox"
+                        id="investingToggle"
+                        class="toggle-input"
+                        onchange="handleInvestingToggle(this.checked)"
+                    />
+                    <label for="investingToggle" class="toggle-switch">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span class="toggle-text" id="investingText">No</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROI Field (shown when investing) -->
+        <div class="input-card" id="roiSection">
+            <label for="roi" class="input-label">
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <polyline points="22,12 18,12 15,21 9,3 6,12 2,12" />
+                </svg>
+                Expected yearly return on investments
+            </label>
+            <div class="input-wrapper">
+                <input
+                    type="number"
+                    id="roi"
+                    step="0.1"
+                    class="form-input"
+                    placeholder="Enter expected return %"
+                />
+                <span class="input-suffix">%</span>
+            </div>
+            <div class="input-help">
+                Conservative: 3-4%, Balanced: 5-7%, Aggressive: 8%+
+            </div>
+        </div>
+    </div>
+</section>

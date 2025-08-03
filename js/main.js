@@ -6,11 +6,11 @@
 class SavePlanApp {
   constructor() {
     this.state = {
-      goal: 1000000,
+      goal: 0,
       current: 0,
-      months: 360,
-      roi: 5,
-      expenses: 2000,
+      months: 0,
+      roi: 0,
+      expenses: 0,
       isCalculating: false,
     };
 
@@ -112,7 +112,7 @@ class SavePlanApp {
   validateInput(inputId, value) {
     const validations = {
       goal: (val) => val > 0 && val <= 100000000, // Max 100M EUR
-      current: (val) => val >= 0 && val <= this.state.goal,
+      current: (val) => val >= 0 && val <= (this.state.goal || 100000000),
       timeframe: (val) => val > 0 && val <= 600, // Max 50 years or 600 months
       roi: (val) => val >= -10 && val <= 30, // ROI between -10% and 30%
       expenses: (val) => val >= 0,
@@ -158,11 +158,11 @@ class SavePlanApp {
   gatherCalculationData() {
     const totalIncome = this.modules.income
       ? this.modules.income.getTotalIncome()
-      : 69000; // Fallback
+      : 0; // Fallback
 
     // Check if investing is enabled
     const investingToggle = document.getElementById("investingToggle");
-    const isInvesting = investingToggle ? investingToggle.checked : true;
+    const isInvesting = investingToggle ? investingToggle.checked : false;
     const effectiveROI = isInvesting ? this.state.roi : 0;
 
     return {
@@ -181,11 +181,36 @@ class SavePlanApp {
       return getTimeframeInMonths();
     }
     // Fallback - assume months if function not available
-    return value || 36;
+    return value || 0;
+  }
+
+  getEmptyResults() {
+    return {
+      goal: 0,
+      current: 0,
+      months: 0,
+      roi: 0,
+      totalIncome: 0,
+      expenses: 0,
+      remaining: 0,
+      requiredMonthly: 0,
+      availableIncome: 0,
+      surplus: 0,
+      savingsRate: 0,
+      futureValue: 0,
+      totalContributions: 0,
+      interestEarned: 0,
+      actualTimeToGoal: 0,
+    };
   }
 
   performCalculations(data) {
     const { goal, current, months, roi, totalIncome, expenses } = data;
+
+    // Skip calculations if essential values are missing
+    if (!goal || !months || !totalIncome) {
+      return this.getEmptyResults();
+    }
 
     // Basic calculations
     const remaining = Math.max(0, goal - current);
@@ -236,6 +261,7 @@ class SavePlanApp {
     const {
       requiredMonthly,
       totalIncome,
+      expenses,
       availableIncome,
       savingsRate,
       futureValue,
@@ -313,6 +339,14 @@ class SavePlanApp {
     const progressText = document.getElementById("progressText");
 
     if (!progressFill) return;
+
+    if (this.state.goal === 0) {
+      progressFill.style.width = "0%";
+      if (progressText) {
+        progressText.textContent = "Enter your goal and current savings";
+      }
+      return;
+    }
 
     const progress = Math.min(
       (this.state.current / this.state.goal) * 100,
