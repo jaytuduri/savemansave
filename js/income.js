@@ -99,7 +99,7 @@ class IncomeManager {
     container.appendChild(newEarner);
 
     // Initialize income for new earner
-    this.incomes.set(this.earnerCount, 25000);
+    this.incomes.set(this.earnerCount, 3000);
     this.earnerCount++;
 
     // Add event listener to new input
@@ -149,7 +149,7 @@ class IncomeManager {
                 </button>
             </div>
             <div class="input-wrapper">
-                <input type="number" class="income-input form-input" value="25000" data-earner="${earnerId}" placeholder="25000">
+                <input type="number" class="income-input form-input" value="3000" data-earner="${earnerId}" placeholder="3000">
                 <span class="input-suffix">EUR</span>
             </div>
         `;
@@ -258,8 +258,8 @@ class IncomeManager {
     // Reset first earner
     const firstInput = document.querySelector(".income-input");
     if (firstInput) {
-      firstInput.value = 39000;
-      this.incomes.set(0, 39000);
+      firstInput.value = 3000;
+      this.incomes.set(0, 3000);
     }
 
     this.disableMultipleEarners();

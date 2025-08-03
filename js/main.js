@@ -7,10 +7,10 @@ class SavePlanApp {
   constructor() {
     this.state = {
       goal: 1000000,
-      current: 200000,
-      months: 36,
+      current: 0,
+      months: 360,
       roi: 5,
-      expenses: 45000,
+      expenses: 2000,
       isCalculating: false,
     };
 
@@ -111,7 +111,7 @@ class SavePlanApp {
 
   validateInput(inputId, value) {
     const validations = {
-      goal: (val) => val > 0 && val <= 100000000, // Max 100M SEK
+      goal: (val) => val > 0 && val <= 100000000, // Max 100M EUR
       current: (val) => val >= 0 && val <= this.state.goal,
       timeframe: (val) => val > 0 && val <= 600, // Max 50 years or 600 months
       roi: (val) => val >= -10 && val <= 30, // ROI between -10% and 30%
@@ -485,10 +485,10 @@ class SavePlanApp {
     // Reset state to defaults
     this.state = {
       goal: 1000000,
-      current: 200000,
-      months: 36,
+      current: 0,
+      months: 360,
       roi: 5,
-      expenses: 45000,
+      expenses: 2000,
       isCalculating: false,
     };
 
@@ -507,9 +507,9 @@ class SavePlanApp {
         // Handle timeframe input specially
         const timeframeElement = document.getElementById("timeframe");
         if (timeframeElement) {
-          timeframeElement.value = 36; // Reset to 36 months
+          timeframeElement.value = 30; // Reset to 30 years
           if (typeof switchTimeframeUnit === "function") {
-            switchTimeframeUnit("months"); // Reset to months unit
+            switchTimeframeUnit("years"); // Reset to years unit
           }
         }
       } else {
