@@ -23,21 +23,34 @@
                     class="share-btn chatgpt"
                     onclick="shareToAI('chatgpt')"
                 >
-                    <div class="share-icon">🤖</div>
+                    <div class="share-icon">
+                        <img
+                            src="https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg/dark/openai.svg"
+                            alt="OpenAI"
+                            width="24"
+                            height="24"
+                        />
+                    </div>
                     <div class="share-info">
                         <div class="share-title">Share with ChatGPT</div>
                         <div class="share-desc">Get AI advice on your plan</div>
                     </div>
                 </button>
 
-                <button
-                    class="share-btn claude"
-                    onclick="shareToAI('claude')"
-                >
-                    <div class="share-icon">🧠</div>
+                <button class="share-btn claude" onclick="shareToAI('claude')">
+                    <div class="share-icon">
+                        <img
+                            src="https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg/dark/anthropic.svg"
+                            alt="Anthropic"
+                            width="24"
+                            height="24"
+                        />
+                    </div>
                     <div class="share-info">
                         <div class="share-title">Share with Claude</div>
-                        <div class="share-desc">Get detailed financial analysis</div>
+                        <div class="share-desc">
+                            Get detailed financial analysis
+                        </div>
                     </div>
                 </button>
 
@@ -45,17 +58,21 @@
                     class="share-btn mistral"
                     onclick="shareToAI('mistral')"
                 >
-                    <div class="share-icon">⚡</div>
+                    <div class="share-icon">
+                        <img
+                            src="https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg/dark/mistral.svg"
+                            alt="Mistral"
+                            width="24"
+                            height="24"
+                        />
+                    </div>
                     <div class="share-info">
                         <div class="share-title">Share with Mistral</div>
                         <div class="share-desc">Quick financial insights</div>
                     </div>
                 </button>
 
-                <button
-                    class="share-btn copy"
-                    onclick="copyReport()"
-                >
+                <button class="share-btn copy" onclick="copyReport()">
                     <div class="share-icon">📋</div>
                     <div class="share-info">
                         <div class="share-title">Copy to Clipboard</div>
@@ -63,10 +80,7 @@
                     </div>
                 </button>
 
-                <button
-                    class="share-btn email"
-                    onclick="shareByEmail()"
-                >
+                <button class="share-btn email" onclick="shareByEmail()">
                     <div class="share-icon">📧</div>
                     <div class="share-info">
                         <div class="share-title">Email Report</div>
