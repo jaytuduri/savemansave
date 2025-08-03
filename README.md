@@ -1,8 +1,6 @@
-# 💰 SavePlan Pro
+# 💰 SaveManSave
 
 A beautiful, user-friendly financial planning calculator that helps you plan your savings goals with smart insights and AI-powered advice.
-
-![SavePlan Pro Screenshot](https://via.placeholder.com/800x400/6366f1/ffffff?text=SavePlan+Pro)
 
 ## ✨ Features
 
@@ -33,17 +31,17 @@ A beautiful, user-friendly financial planning calculator that helps you plan you
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/saveplan-pro.git
-   cd saveplan-pro
+   git clone https://github.com/jaytuduri/savemansave.git
+   cd savemansave
    ```
 
 2. **Open in browser:**
    ```bash
    # Simply open index.html in your browser
-   open saveplan/index.html
+   open index.html
    
    # Or serve with a local server
-   npx serve saveplan
+   npx serve .
    ```
 
 3. **Start planning:**
@@ -56,6 +54,7 @@ A beautiful, user-friendly financial planning calculator that helps you plan you
 ```
 saveplan/
 ├── index.html          # Main application
+├── saveplan.html       # Alternative entry point
 ├── css/
 │   └── styles.css      # Modern, responsive styles
 ├── js/
@@ -105,7 +104,7 @@ saveplan/
 
 ## 🤖 AI Integration
 
-SavePlan Pro integrates directly with major AI platforms:
+SaveManSave integrates directly with major AI platforms:
 
 ### **ChatGPT**
 ```
@@ -193,17 +192,17 @@ SavePlan Pro integrates directly with major AI platforms:
 ## 🚀 Deployment
 
 ### **GitHub Pages**
-```bash
-# Enable GitHub Pages in repository settings
-# Point to main branch / root folder
-# Your app will be available at: https://username.github.io/saveplan-pro
-```
+1. Go to your repository settings
+2. Navigate to "Pages" section
+3. Select "Deploy from a branch"
+4. Choose "main" branch and "/ (root)" folder
+5. Your app will be available at: `https://jaytuduri.github.io/savemansave`
 
 ### **Netlify**
 ```bash
 # Connect your GitHub repo to Netlify
 # Build settings: None required (static site)
-# Deploy folder: saveplan/
+# Deploy folder: / (root)
 ```
 
 ### **Vercel**
@@ -214,7 +213,7 @@ npx vercel
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our contributing guidelines:
+We welcome contributions! Here's how you can help:
 
 1. **Fork the repository**
 2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
@@ -225,14 +224,14 @@ We welcome contributions! Please see our contributing guidelines:
 ### **Development Setup**
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/saveplan-pro.git
-cd saveplan-pro
+git clone https://github.com/jaytuduri/savemansave.git
+cd savemansave
 
 # Create a branch
 git checkout -b feature/your-feature
 
 # Make changes and test
-# Open saveplan/index.html in browser
+# Open index.html in browser
 
 # Commit and push
 git add .
@@ -253,9 +252,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 🐛 **Bug reports**: [GitHub Issues](https://github.com/yourusername/saveplan-pro/issues)
-- 💡 **Feature requests**: [GitHub Discussions](https://github.com/yourusername/saveplan-pro/discussions)
-- 📧 **Email**: your.email@example.com
+- 🐛 **Bug reports**: [GitHub Issues](https://github.com/jaytuduri/savemansave/issues)
+- 💡 **Feature requests**: [GitHub Discussions](https://github.com/jaytuduri/savemansave/discussions)
+- 📧 **Contact**: Open an issue for questions
 
 ## 🎉 What's Next?
 
@@ -267,6 +266,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Mobile app version
 - [ ] Integration with banking APIs
 
+### **Live Demo**
+Try it out: [https://jaytuduri.github.io/savemansave](https://jaytuduri.github.io/savemansave)
+
 ### **Community**
 - ⭐ Star this repo if you find it helpful
 - 🍴 Fork it to create your own version
@@ -277,4 +279,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ for better financial planning**
 
-*SavePlan Pro - Making financial planning accessible to everyone*
+*SaveManSave - Making financial planning accessible to everyone*
